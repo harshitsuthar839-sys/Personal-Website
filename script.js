@@ -33,3 +33,10 @@ navLinks.forEach(link => {
         }
     });
 });
+
+// --- Mouse Spotlight Tracker ---
+document.addEventListener('mousemove', function(e) {
+    // Sends the mouse X and Y positions to the CSS
+    document.body.style.setProperty('--mouse-x', e.clientX + 'px');
+    document.body.style.setProperty('--mouse-y', e.clientY + 'px');
+});
