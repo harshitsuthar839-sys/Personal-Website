@@ -1,0 +1,126 @@
+/* Setup CSS Variables for theming */
+:root {
+    --bg-color: #f4f4f9;
+    --text-color: #333333;
+    --panel-bg: #ffffff;
+    --primary-color: #6c5ce7;
+    --link-color: #a29bfe;
+}
+
+/* Dark mode variables applied when JS adds this class */
+.dark-theme {
+    --bg-color: #1a1a2e;
+    --text-color: #e9e9eb;
+    --panel-bg: #16213e;
+    --primary-color: #0f3460;
+    --link-color: #e94560;
+}
+
+/* Base Styles */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header & Navigation */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 1.5rem;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: var(--link-color);
+}
+
+#theme-btn {
+    background: none;
+    border: 2px solid white;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#theme-btn:hover {
+    background: white;
+    color: var(--primary-color);
+}
+
+/* Sections & Layout */
+main {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.panel {
+    background-color: var(--panel-bg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+/* Project Cards */
+.project-grid {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.project-card {
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    background-color: var(--bg-color);
+    border-radius: 5px;
+    flex: 1;
+    /* Smooth transition for the hover effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* The hover lift effect */
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.project-card a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Contact Button */
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
