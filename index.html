@@ -10,42 +10,51 @@
     <header>
         <h1>My Portfolio</h1>
         <nav>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
+            <a href="#" class="nav-link" data-section="about">About</a>
+            <a href="#" class="nav-link" data-section="projects">Projects</a>
+            <a href="#" class="nav-link" data-section="contact">Contact</a>
             <button id="theme-btn">🌙 Dark Mode</button>
         </nav>
     </header>
 
     <main>
         <!-- Section 1: About -->
-        <section id="about" class="panel">
-            <h2>Hello, I'm a Developer! 👋</h2>
-            <p>Welcome to my corner of the internet. I love building clean, creative websites and solving interesting problems. When I'm not coding, I'm usually exploring new tech or working on fun side projects.</p>
+        <section id="about" class="panel content-section active">
+            <h2>Hello, I am a Student! 👋</h2>
+            <p>I am a student who has an interest in AI, coding, robotics, and more. Welcome to my personal site where I share my projects, tech experiments, and the books I've written!</p>
         </section>
 
-        <!-- Section 2: Projects -->
-        <section id="projects" class="panel">
-            <h2>My Projects</h2>
+<!-- Section 2: Projects (Books) -->
+        <section id="projects" class="panel content-section">
+            <h2>My Books & Projects</h2>
             <div class="project-grid">
+                
+                <!-- Book 1: Earth 2.0 -->
                 <div class="project-card">
-                    <h3>Project One</h3>
-                    <p>A cool web application built with HTML, CSS, and JS.</p>
-                    <a href="#">View Code</a>
+                    <!-- Paste the image address inside the src quotes below -->
+                    <img src="https://media.bribooks.com/public/AuthorCoverImages/user_cover_6a310e78280c8_b0_v2296524.png?width=200&format=avif" alt="Earth 2.0 Book Cover" class="book-cover">
+                    <h3>📚 Earth 2.0</h3>
+                    <p>Earth 2.0 explores a future where advanced simulations, artificial intelligence, and hidden realities challenge humanity's understanding of existence.</p>
+                    <a href="https://www.bribooks.com/bookstore/earth-2-0-by-harshit-suthar/" target="_blank" class="buy-btn">Buy Book</a>
                 </div>
+                
+                <!-- Book 2: The Missing Day -->
                 <div class="project-card">
-                    <h3>Project Two</h3>
-                    <p>An interactive data dashboard displaying live statistics.</p>
-                    <a href="#">View Code</a>
+                    <!-- Paste the image address inside the src quotes below -->
+                    <img src="https://media.bribooks.com/public/AuthorCoverImages/user_cover_6a43b180ad49b_b2_v2299594.png?width=200&format=avif" alt="The Missing Day Book Cover" class="book-cover">
+                    <h3>📚 The Missing Day</h3>
+                    <p>The Missing Day is an imaginative work, combining suspense, friendship, and adventure into an exciting mystery.</p>
+                    <a href="https://www.bribooks.com/bookstore/the-missing-day-by-harshit-suthar/" target="_blank" class="buy-btn">Buy Book</a>
                 </div>
+
             </div>
         </section>
 
         <!-- Section 3: Contact -->
-        <section id="contact" class="panel">
+        <section id="contact" class="panel content-section">
             <h2>Let's Connect</h2>
             <p>Want to work together or just say hi? Drop me a line!</p>
-            <a href="mailto:your.email@example.com" class="btn">Email Me</a>
+            <a href="mailto:harshitsuthar839@gmail.com" class="btn">Email Me</a>
         </section>
     </main>
     

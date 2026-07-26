@@ -1,26 +1,22 @@
-/* Setup CSS Variables for theming */
+/* Setup CSS Variables with a modern Teal/Cyan theme */
 :root {
-    --bg-color: #f4f4f9;
-    --text-color: #333333;
+    --bg-color: #eef2f5;
+    --text-color: #2c3e50;
     --panel-bg: #ffffff;
-    --primary-color: #6c5ce7;
-    --link-color: #a29bfe;
+    --primary-color: #00b4d8;
+    --link-color: #0077b6;
 }
 
-/* Dark mode variables applied when JS adds this class */
+/* Dark mode variables */
 .dark-theme {
-    --bg-color: #1a1a2e;
-    --text-color: #e9e9eb;
-    --panel-bg: #16213e;
-    --primary-color: #0f3460;
-    --link-color: #e94560;
+    --bg-color: #0f172a;
+    --text-color: #f8fafc;
+    --panel-bg: #1e293b;
+    --primary-color: #38bdf8;
+    --link-color: #0ea5e9;
 }
 
 /* Base Styles */
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-color);
@@ -48,10 +44,12 @@ nav a {
     text-decoration: none;
     margin-right: 1.5rem;
     font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
 }
 
-nav a:hover {
-    color: var(--link-color);
+nav a:hover, nav a.active-link {
+    color: #03045e;
 }
 
 #theme-btn {
@@ -70,11 +68,19 @@ nav a:hover {
     color: var(--primary-color);
 }
 
-/* Sections & Layout */
+/* Dynamic Section Display Setup */
 main {
     max-width: 900px;
     margin: 2rem auto;
     padding: 0 1rem;
+}
+
+.content-section {
+    display: none; /* Hidden by default */
+}
+
+.content-section.active {
+    display: block; /* Shown only when active class is applied */
 }
 
 .panel {
@@ -82,39 +88,59 @@ main {
     padding: 2rem;
     margin-bottom: 2rem;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: background-color 0.3s;
 }
 
-/* Project Cards */
+/* Book / Project Cards Layout */
 .project-grid {
     display: flex;
     gap: 1.5rem;
 }
 
 .project-card {
-    border-left: 4px solid var(--primary-color);
-    padding: 1rem;
+    border-top: 4px solid var(--primary-color);
+    padding: 1.5rem;
     background-color: var(--bg-color);
-    border-radius: 5px;
+    border-radius: 8px;
     flex: 1;
-    /* Smooth transition for the hover effect */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Stack image, title, text, button */
+    align-items: center; /* Center everything inside */
+    text-align: center;
 }
 
-/* The hover lift effect */
 .project-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.project-card a {
-    color: var(--primary-color);
+/* Added Styling for Book Cover Images */
+.project-card .book-cover {
+    width: 100%;
+    max-width: 200px; /* Limits the size of the cover */
+    aspect-ratio: 2 / 3; /* Standard book aspect ratio */
+    object-fit: cover; /* Ensures the image fits properly */
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle shadow on the cover itself */
+}
+
+.project-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.buy-btn {
+    display: inline-block;
+    margin-top: auto; /* Pushes the button to the bottom */
+    color: var(--link-color);
     text-decoration: none;
     font-weight: bold;
 }
 
-/* Contact Button */
+/* Main Action Button */
 .btn {
     display: inline-block;
     background-color: var(--primary-color);
@@ -123,4 +149,5 @@ main {
     text-decoration: none;
     border-radius: 5px;
     margin-top: 1rem;
+    font-weight: bold;
 }
