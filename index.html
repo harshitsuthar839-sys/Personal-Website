@@ -22,42 +22,69 @@
         <section id="about" class="panel content-section active">
             <h2>Hello, I am a Student! 👋</h2>
             <p>I am a student who has an interest in AI, coding, robotics, and more. Welcome to my personal site where I share my projects, tech experiments, and the books I've written!</p>
+            
+            <h3 style="margin-top: 2rem;">My Skills & Tech Stack</h3>
+            <div class="skills-grid">
+                <span class="skill-badge">HTML & CSS</span>
+                <span class="skill-badge">JavaScript</span>
+                <span class="skill-badge">Python</span>
+                <span class="skill-badge">Arduino & Hardware</span>
+                <span class="skill-badge">Robotics</span>
+                <span class="skill-badge">Creative Writing</span>
+            </div>
+
+            <!-- UPDATED: Social Connections Links (Slack instead of Stack Overflow) -->
+            <h3 style="margin-top: 2rem;">Find Me Online</h3>
+            <div class="social-links-container">
+                <a href="https://www.linkedin.com/in/harshit-suthar-8096b3411/" target="_blank" class="social-tag"> LinkedIn</a>
+                <a href="https://www.instagram.com/___Harshit81" target="_blank" class="social-tag"> Instagram</a>
+                <a href="https://hackclub.enterprise.slack.com/team/U0ANU4WCX7U" target="_blank" class="social-tag"> Slack</a>
+            </div>
         </section>
 
-<!-- Section 2: Projects (Books) -->
+        <!-- Section 2: Projects (Books) -->
         <section id="projects" class="panel content-section">
             <h2>My Books & Projects</h2>
             <div class="project-grid">
-                
-                <!-- Book 1: Earth 2.0 -->
                 <div class="project-card">
-                    <!-- Paste the image address inside the src quotes below -->
                     <img src="https://media.bribooks.com/public/AuthorCoverImages/user_cover_6a310e78280c8_b0_v2296524.png?width=200&format=avif" alt="Earth 2.0 Book Cover" class="book-cover">
                     <h3>📚 Earth 2.0</h3>
                     <p>Earth 2.0 explores a future where advanced simulations, artificial intelligence, and hidden realities challenge humanity's understanding of existence.</p>
                     <a href="https://www.bribooks.com/bookstore/earth-2-0-by-harshit-suthar/" target="_blank" class="buy-btn">Buy Book</a>
                 </div>
-                
-                <!-- Book 2: The Missing Day -->
                 <div class="project-card">
-                    <!-- Paste the image address inside the src quotes below -->
                     <img src="https://media.bribooks.com/public/AuthorCoverImages/user_cover_6a43b180ad49b_b2_v2299594.png?width=200&format=avif" alt="The Missing Day Book Cover" class="book-cover">
                     <h3>📚 The Missing Day</h3>
                     <p>The Missing Day is an imaginative work, combining suspense, friendship, and adventure into an exciting mystery.</p>
                     <a href="https://www.bribooks.com/bookstore/the-missing-day-by-harshit-suthar/" target="_blank" class="buy-btn">Buy Book</a>
                 </div>
-
             </div>
         </section>
 
         <!-- Section 3: Contact -->
         <section id="contact" class="panel content-section">
             <h2>Let's Connect</h2>
-            <p>Want to work together or just say hi? Drop me a line!</p>
-            <a href="mailto:harshitsuthar839@gmail.com" class="btn">Email Me</a>
+            <p>Have a question about my books, my robotics projects, or just want to say hi? Send me a message below!</p>
+            
+            <form class="contact-form" action="mailto:harshitsuthar839@gmail.com" method="POST" enctype="text/plain">
+                <input type="text" name="Name" placeholder="Your Name" required>
+                <input type="email" name="Email" placeholder="Your Email" required>
+                <textarea name="Message" rows="5" placeholder="Type your message here..." required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
         </section>
     </main>
     
+    <!-- UPDATED: Footer with Slack -->
+    <footer>
+        <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/harshit-suthar-8096b3411/" target="_blank">LinkedIn</a> | 
+            <a href="https://www.instagram.com/___Harshit81" target="_blank">Instagram</a> | 
+            <a href="https://hackclub.enterprise.slack.com/team/U0ANU4WCX7U" target="_blank">Slack</a>
+        </div>
+        <p>&copy; 2026 Harshit. Built with code and creativity.</p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
-</html>
+</html> 
