@@ -3,7 +3,7 @@
 
 /* Setup CSS Variables for Light Mode */
 :root {
-    --bg-color: #cbd5e1; /* A deeper slate grey */
+    --bg-color: #cbd5e1;
     --text-color: #0f172a;
     --border-color: rgba(255, 255, 255, 0.6);
     --btn-bg: #0f172a;
@@ -14,16 +14,15 @@
 
     /* True Glass & Spotlight Variables */
     --glass-bg: rgba(255, 255, 255, 0.4);
-    --spotlight: rgba(56, 189, 248, 0.25);
+    --spotlight: rgba(255, 255, 255, 0.8);
 
-    /* Accent color — cyan, pulled from the dark-mode spotlight glow */
     --accent: #0891b2;
     --accent-glow: rgba(8, 145, 178, 0.35);
 }
 
 /* Setup CSS Variables for Dark Mode */
 .dark-theme {
-    --bg-color: #020617; /* Deep midnight black/blue */
+    --bg-color: #020617; 
     --text-color: #f8fafc;
     --border-color: rgba(255, 255, 255, 0.1);
     --btn-bg: #f8fafc;
@@ -37,6 +36,35 @@
 
     --accent: #38bdf8;
     --accent-glow: rgba(56, 189, 248, 0.35);
+}
+
+html {
+    background-color: var(--bg-color);
+    transition: background-color 0.4s ease;
+}
+
+/* Base Styles */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    position: relative;
+}
+
+/* THE SPOTLIGHT EFFECT */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    pointer-events: none; 
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
+        var(--spotlight),
+        transparent 40%
+    );
 }
 
 /* ---------- Page Load Intro Overlay ---------- */
@@ -132,7 +160,7 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 150;
     box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
@@ -165,47 +193,12 @@
 }
 
 @keyframes rippleAnim {
-    to {
-        transform: scale(3);
-        opacity: 0;
-    }
+    to { transform: scale(3); opacity: 0; }
 }
 
 /* ---------- 3D Tilt on Project Cards ---------- */
-.project-grid {
-    perspective: 1000px;
-}
-
-.project-card {
-    transform-style: preserve-3d;
-    will-change: transform;
-}
-
-/* Base Styles */
-body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    transition: background-color 0.3s, color 0.3s;
-    position: relative;
-    z-index: 1;
-}
-
-/* THE SPOTLIGHT EFFECT (Follows the mouse!) */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: -1;
-    background: radial-gradient(
-        600px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
-        var(--spotlight),
-        transparent 40%
-    );
-}
+.project-grid { perspective: 1000px; }
+.project-card { transform-style: preserve-3d; will-change: transform; }
 
 /* Respect users who don't want motion */
 @media (prefers-reduced-motion: reduce) {
@@ -225,12 +218,9 @@ body::before {
         backdrop-filter: blur(6px);
         -webkit-backdrop-filter: blur(6px);
     }
-    /* Fewer particles + no tilt on touch screens, handled in JS */
     #scroll-top-btn {
-        bottom: 1.1rem;
-        right: 1.1rem;
-        width: 42px;
-        height: 42px;
+        bottom: 1.1rem; right: 1.1rem;
+        width: 42px; height: 42px;
     }
 }
 
@@ -257,10 +247,7 @@ header h1 {
     letter-spacing: -0.05em;
 }
 
-nav {
-    display: flex;
-    align-items: center;
-}
+nav { display: flex; align-items: center; }
 
 nav a {
     position: relative;
@@ -270,31 +257,23 @@ nav a {
     font-weight: 500;
     font-size: 0.9rem;
     padding-bottom: 0.35rem;
-    transition: color 0.2s;
+    transition: color 0.3s ease;
 }
 
-/* Animated underline that slides in on hover/active instead of a hard color swap */
 nav a::after {
     content: '';
     position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
+    left: 0; bottom: 0;
+    width: 100%; height: 2px;
     background: var(--accent);
     border-radius: 2px;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-nav a:hover, nav a.active-link {
-    color: var(--text-color);
-}
-
-nav a:hover::after, nav a.active-link::after {
-    transform: scaleX(1);
-}
+nav a:hover, nav a.active-link { color: var(--text-color); }
+nav a:hover::after, nav a.active-link::after { transform: scaleX(1); }
 
 /* Header Theme Button */
 #theme-btn {
@@ -306,7 +285,7 @@ nav a:hover::after, nav a.active-link::after {
     cursor: pointer;
     font-weight: 500;
     font-size: 0.875rem;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #theme-btn:hover {
@@ -324,15 +303,17 @@ main {
 
 .content-section {
     display: none;
+    opacity: 0;
 }
 
+/* Smoother Slide Up Animation */
 .content-section.active {
     display: block;
-    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slideUpFade 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes slideUpFade {
-    from { opacity: 0; transform: translateY(15px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -345,7 +326,6 @@ main {
     margin-bottom: 2rem;
     border-radius: var(--radius);
     border: 1px solid var(--border-color);
-    /* Outer shadow for depth + inset top highlight to sell the "glass edge" */
     box-shadow:
         0 8px 32px 0 rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.35);
@@ -377,7 +357,7 @@ main {
     font-weight: 500;
     font-size: 0.875rem;
     border: 1px solid var(--border-color);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .skill-badge:hover {
@@ -405,13 +385,13 @@ main {
     font-weight: 500;
     font-size: 0.875rem;
     border: 1px solid var(--border-color);
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .social-tag:hover {
     background-color: var(--glass-bg);
     border-color: var(--accent);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: 0 6px 16px var(--accent-glow);
 }
 
@@ -432,11 +412,11 @@ main {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .project-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     background-color: var(--glass-bg);
     box-shadow: 0 14px 30px var(--accent-glow);
 }
@@ -452,125 +432,115 @@ main {
 }
 
 .project-card .book-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.4s ease;
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.project-card:hover .book-cover {
-    transform: scale(1.08);
-}
+.project-card:hover .book-cover { transform: scale(1.08); }
 
 .project-card h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-size: 1.25rem;
-    font-weight: 600;
+    margin-top: 0; margin-bottom: 0.5rem;
+    font-size: 1.25rem; font-weight: 600;
 }
 
 .project-card p {
     color: var(--muted-text);
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
+    font-size: 0.95rem; margin-bottom: 1.5rem;
 }
 
 .buy-btn {
-    display: inline-block;
-    margin-top: auto;
-    color: var(--accent);
-    text-decoration: underline;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block; margin-top: auto;
+    color: var(--accent); text-decoration: underline;
+    font-weight: 600; font-size: 0.9rem;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease;
 }
 
-.buy-btn:hover {
-    transform: translateX(3px);
-}
+.buy-btn:hover { transform: translateX(4px); }
 
-/* Scroll fade-in-up: elements start hidden, .in-view triggered by IntersectionObserver in JS */
 .fade-in-up {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.fade-in-up.in-view {
-    opacity: 1;
-    transform: translateY(0);
-}
+.fade-in-up.in-view { opacity: 1; transform: translateY(0); }
 
 /* Modern Input Forms */
 .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;
 }
 
 .contact-form input, .contact-form textarea {
     padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--muted);
-    color: var(--text-color);
-    font-family: inherit;
-    font-size: 0.95rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border-color); border-radius: 6px;
+    background-color: var(--muted); color: var(--text-color);
+    font-family: inherit; font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-form input:focus, .contact-form textarea:focus {
-    outline: none;
-    border-color: var(--accent);
+    outline: none; border-color: var(--accent);
     background-color: var(--glass-bg);
     box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-/* Monochrome Buttons with accent hover */
+/* Buttons */
 .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
-    padding: 0.75rem 1.5rem;
-    text-decoration: none;
-    border-radius: 6px;
-    margin-top: 0.5rem;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; justify-content: center;
+    background-color: var(--btn-bg); color: var(--btn-text);
+    padding: 0.75rem 1.5rem; text-decoration: none;
+    border-radius: 6px; margin-top: 0.5rem; font-weight: 500;
+    border: none; cursor: pointer; font-size: 0.95rem;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
 }
 
 .btn:hover {
-    opacity: 0.92;
-    transform: translateY(-2px);
+    opacity: 0.92; transform: translateY(-3px);
     box-shadow: 0 8px 20px var(--accent-glow);
 }
 
 /* Footer Section */
 footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid var(--border-color);
-    margin-top: auto;
-    font-size: 0.875rem;
-    color: var(--muted-text);
-    background-color: var(--glass-bg);
-    backdrop-filter: blur(8px);
+    text-align: center; padding: 2rem;
+    border-top: 1px solid var(--border-color); margin-top: auto;
+    font-size: 0.875rem; color: var(--muted-text);
+    background-color: var(--glass-bg); backdrop-filter: blur(8px);
 }
 
 .footer-socials a {
-    color: var(--muted-text);
-    text-decoration: none;
-    margin: 0 0.5rem;
-    transition: color 0.2s;
+    color: var(--muted-text); text-decoration: none; margin: 0 0.5rem;
+    transition: color 0.3s ease;
 }
 
-.footer-socials a:hover {
-    color: var(--accent);
+.footer-socials a:hover { color: var(--accent); }
+
+/* ---------- NEW: Custom Cursor Styles ---------- */
+@media (pointer: fine) {
+    /* Hide the default cursor */
+    body, a, button, input, textarea, .btn, .social-tag, .nav-link, #theme-btn, .buy-btn {
+        cursor: none !important;
+    }
+
+    #custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--accent);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none; /* Allows you to click *through* the cursor */
+        z-index: 10000;
+        transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        will-change: transform, width, height;
+    }
+
+    /* The "Hover" State */
+    #custom-cursor.cursor-hover {
+        width: 44px;
+        height: 44px;
+        background-color: var(--accent-glow);
+        border-color: var(--accent);
+    }
 }

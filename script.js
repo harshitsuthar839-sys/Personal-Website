@@ -26,7 +26,7 @@ if (typewriterEl && !prefersReducedMotion) {
             typewriterEl.textContent = currentWord.slice(0, charIndex);
             if (charIndex === currentWord.length) {
                 deleting = true;
-                setTimeout(typeLoop, 1400); // pause at full word
+                setTimeout(typeLoop, 1400); 
                 return;
             }
         } else {
@@ -94,7 +94,7 @@ function attachRipple(el) {
 
 document.querySelectorAll('.btn, #theme-btn, #scroll-top-btn').forEach(attachRipple);
 
-// --- 3D Tilt Effect on Project Cards (desktop only) ---
+// --- 3D Tilt Effect on Project Cards ---
 if (!isTouchDevice && !prefersReducedMotion) {
     document.querySelectorAll('.project-card').forEach(card => {
         card.addEventListener('mousemove', function(e) {
@@ -103,7 +103,7 @@ if (!isTouchDevice && !prefersReducedMotion) {
             const y = e.clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -6; // max ~6deg
+            const rotateX = ((y - centerY) / centerY) * -6; 
             const rotateY = ((x - centerX) / centerX) * 6;
 
             card.style.transform = `translateY(-6px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
@@ -124,7 +124,6 @@ if (!isTouchDevice && !prefersReducedMotion) {
     let particles = [];
     let width, height;
 
-    // Fewer particles on small/touch screens for performance
     const particleCount = isTouchDevice || window.innerWidth < 700 ? 25 : 55;
 
     function resize() {
@@ -185,6 +184,7 @@ if (!isTouchDevice && !prefersReducedMotion) {
 
 // Theme Toggle Logic
 const themeBtn = document.getElementById('theme-btn');
+const html = document.documentElement; 
 const body = document.body;
 
 themeBtn.addEventListener('click', function() {
@@ -216,35 +216,42 @@ navLinks.forEach(link => {
             targetSection.classList.add('active');
         }
 
-        // Update active nav link styling (drives the sliding underline in CSS)
+        // Update active nav link styling
         navLinks.forEach(l => l.classList.remove('active-link'));
         this.classList.add('active-link');
 
-        // Re-trigger fade-in-up animations for cards inside the newly shown section
+        // Re-trigger fade-in-up animations
         const fadeEls = targetSection ? targetSection.querySelectorAll('.fade-in-up') : [];
         fadeEls.forEach(el => {
             el.classList.remove('in-view');
-            // Force reflow so the animation can replay
-            void el.offsetWidth;
+            void el.offsetWidth; // Force reflow
             fadeObserver.observe(el);
         });
     });
 });
 
-// --- Mouse Spotlight Tracker (smooth eased follow, not instant snap) ---
-if (window.matchMedia('(hover: hover)').matches) {
+// --- Mouse Spotlight Tracker & Custom Cursor ---
+if (window.matchMedia('(pointer: fine)').matches) {
     let targetX = window.innerWidth / 2;
     let targetY = window.innerHeight / 2;
     let currentX = targetX;
     let currentY = targetY;
-    const ease = 0.12; // lower = smoother/laggier trail, higher = snappier
+    const ease = 0.12; 
+    
+    const customCursor = document.getElementById('custom-cursor');
 
     document.addEventListener('mousemove', function(e) {
         targetX = e.clientX;
         targetY = e.clientY;
+        
+        // Snap the custom cursor directly to the mouse so it feels completely responsive
+        if (customCursor) {
+            customCursor.style.transform = `translate(calc(${targetX}px - 50%), calc(${targetY}px - 50%))`;
+        }
     });
 
     function animateSpotlight() {
+        // Spotlight has a smooth, floating follow effect
         currentX += (targetX - currentX) * ease;
         currentY += (targetY - currentY) * ease;
 
@@ -255,6 +262,17 @@ if (window.matchMedia('(hover: hover)').matches) {
     }
 
     animateSpotlight();
+    
+    // Add the glowing hover effect to all clickable elements
+    const clickables = document.querySelectorAll('a, button, input, textarea, .btn, .social-tag, .nav-link, .buy-btn');
+    clickables.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            if (customCursor) customCursor.classList.add('cursor-hover');
+        });
+        el.addEventListener('mouseleave', () => {
+            if (customCursor) customCursor.classList.remove('cursor-hover');
+        });
+    });
 }
 
 // --- Scroll Fade-In-Up (IntersectionObserver) ---
