@@ -11,10 +11,14 @@
     --muted: rgba(255, 255, 255, 0.4);
     --muted-text: #475569;
     --radius: 12px;
-    
+
     /* True Glass & Spotlight Variables */
-    --glass-bg: rgba(255, 255, 255, 0.4); 
-    --spotlight: rgba(255, 255, 255, 0.8); 
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --spotlight: rgba(56, 189, 248, 0.25);
+
+    /* Accent color — cyan, pulled from the dark-mode spotlight glow */
+    --accent: #0891b2;
+    --accent-glow: rgba(8, 145, 178, 0.35);
 }
 
 /* Setup CSS Variables for Dark Mode */
@@ -26,10 +30,13 @@
     --btn-text: #020617;
     --muted: rgba(255, 255, 255, 0.1);
     --muted-text: #94a3b8;
-    
+
     /* True Glass & Spotlight Variables */
-    --glass-bg: rgba(15, 23, 42, 0.5); 
-    --spotlight: rgba(56, 189, 248, 0.15); 
+    --glass-bg: rgba(15, 23, 42, 0.5);
+    --spotlight: rgba(56, 189, 248, 0.15);
+
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.35);
 }
 
 /* Base Styles */
@@ -51,13 +58,29 @@ body::before {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: -1;
-    /* Uses the variables from Javascript to center the glow */
     background: radial-gradient(
         600px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
         var(--spotlight),
         transparent 40%
     );
     transition: background 0.3s ease;
+}
+
+/* Respect users who don't want motion */
+@media (prefers-reduced-motion: reduce) {
+    body::before { display: none; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Disable heavy blur on smaller/lower-power screens to avoid jank */
+@media (max-width: 600px) {
+    .panel, header, footer {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
 }
 
 /* Glassmorphism Header */
@@ -71,7 +94,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky; 
+    position: sticky;
     top: 0;
     z-index: 100;
 }
@@ -80,20 +103,46 @@ header h1 {
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0;
-    letter-spacing: -0.05em; 
+    letter-spacing: -0.05em;
+}
+
+nav {
+    display: flex;
+    align-items: center;
 }
 
 nav a {
+    position: relative;
     color: var(--muted-text);
     text-decoration: none;
     margin-right: 1.5rem;
     font-weight: 500;
     font-size: 0.9rem;
+    padding-bottom: 0.35rem;
     transition: color 0.2s;
+}
+
+/* Animated underline that slides in on hover/active instead of a hard color swap */
+nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
 }
 
 nav a:hover, nav a.active-link {
     color: var(--text-color);
+}
+
+nav a:hover::after, nav a.active-link::after {
+    transform: scaleX(1);
 }
 
 /* Header Theme Button */
@@ -102,7 +151,7 @@ nav a:hover, nav a.active-link {
     border: 1px solid var(--border-color);
     color: var(--text-color);
     padding: 0.5rem 1rem;
-    border-radius: 6px; 
+    border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
     font-size: 0.875rem;
@@ -111,6 +160,7 @@ nav a:hover, nav a.active-link {
 
 #theme-btn:hover {
     background: var(--muted);
+    border-color: var(--accent);
 }
 
 /* Layout */
@@ -138,13 +188,16 @@ main {
 /* True Glassmorphism Cards (Panels) */
 .panel {
     background-color: var(--glass-bg);
-    backdrop-filter: blur(12px); /* Creates the frosted glass */
+    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 2.5rem;
     margin-bottom: 2rem;
     border-radius: var(--radius);
     border: 1px solid var(--border-color);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
+    /* Outer shadow for depth + inset top highlight to sell the "glass edge" */
+    box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .panel h2 {
@@ -173,6 +226,13 @@ main {
     font-weight: 500;
     font-size: 0.875rem;
     border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.skill-badge:hover {
+    transform: translateY(-3px) scale(1.04);
+    border-color: var(--accent);
+    box-shadow: 0 6px 16px var(--accent-glow);
 }
 
 /* Social Links */
@@ -199,7 +259,9 @@ main {
 
 .social-tag:hover {
     background-color: var(--glass-bg);
-    border-color: var(--text-color);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--accent-glow);
 }
 
 /* Book / Project Cards */
@@ -213,28 +275,41 @@ main {
 .project-card {
     border: 1px solid var(--border-color);
     padding: 1.5rem;
-    background-color: var(--muted); 
+    background-color: var(--muted);
     border-radius: var(--radius);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: transform 0.2s, background-color 0.2s;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     background-color: var(--glass-bg);
+    box-shadow: 0 14px 30px var(--accent-glow);
+}
+
+.book-cover-wrap {
+    width: 100%;
+    max-width: 160px;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 1.25rem;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 
 .project-card .book-cover {
     width: 100%;
-    max-width: 160px;
-    aspect-ratio: 2 / 3;
+    height: 100%;
     object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 1.25rem;
-    border: 1px solid var(--border-color);
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover .book-cover {
+    transform: scale(1.08);
 }
 
 .project-card h3 {
@@ -253,10 +328,27 @@ main {
 .buy-btn {
     display: inline-block;
     margin-top: auto;
-    color: var(--text-color);
+    color: var(--accent);
     text-decoration: underline;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.9rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.buy-btn:hover {
+    transform: translateX(3px);
+}
+
+/* Scroll fade-in-up: elements start hidden, .in-view triggered by IntersectionObserver in JS */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-up.in-view {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Modern Input Forms */
@@ -275,22 +367,23 @@ main {
     color: var(--text-color);
     font-family: inherit;
     font-size: 0.95rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .contact-form input:focus, .contact-form textarea:focus {
     outline: none;
-    border-color: var(--text-color);
+    border-color: var(--accent);
     background-color: var(--glass-bg);
+    box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-/* Monochrome Buttons */
+/* Monochrome Buttons with accent hover */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--btn-bg); 
-    color: var(--btn-text); 
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
     padding: 0.75rem 1.5rem;
     text-decoration: none;
     border-radius: 6px;
@@ -299,11 +392,13 @@ main {
     border: none;
     cursor: pointer;
     font-size: 0.95rem;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .btn:hover {
-    opacity: 0.85;
+    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--accent-glow);
 }
 
 /* Footer Section */
@@ -326,5 +421,5 @@ footer {
 }
 
 .footer-socials a:hover {
-    color: var(--text-color);
+    color: var(--accent);
 }
