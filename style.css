@@ -39,6 +39,148 @@
     --accent-glow: rgba(56, 189, 248, 0.35);
 }
 
+/* ---------- Page Load Intro Overlay ---------- */
+#page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#page-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-mark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    color: var(--text-color);
+    opacity: 0.8;
+    animation: pulseLoader 1s ease-in-out infinite;
+}
+
+@keyframes pulseLoader {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* ---------- Ambient Particle Canvas ---------- */
+#particle-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* ---------- Scroll Progress Bar ---------- */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--text-color));
+    z-index: 200;
+    transition: width 0.1s ease-out;
+}
+
+/* ---------- Typewriter Subtitle ---------- */
+.typewriter-line {
+    font-size: 1.05rem;
+    color: var(--muted-text);
+    margin-top: -0.5rem;
+}
+
+.typewriter-text {
+    color: var(--accent);
+    font-weight: 600;
+    border-right: 2px solid var(--accent);
+    padding-right: 4px;
+    animation: blinkCursor 0.8s step-end infinite;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { border-color: var(--accent); }
+    50% { border-color: transparent; }
+}
+
+/* ---------- Scroll To Top Button ---------- */
+#scroll-top-btn {
+    position: fixed;
+    bottom: 1.75rem;
+    right: 1.75rem;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-color);
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 150;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+#scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#scroll-top-btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 22px var(--accent-glow);
+    transform: translateY(-3px);
+}
+
+/* ---------- Ripple Effect (buttons) ---------- */
+.btn, #theme-btn, #scroll-top-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    transform: scale(0);
+    animation: rippleAnim 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes rippleAnim {
+    to {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* ---------- 3D Tilt on Project Cards ---------- */
+.project-grid {
+    perspective: 1000px;
+}
+
+.project-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
 /* Base Styles */
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -69,6 +211,9 @@ body::before {
 /* Respect users who don't want motion */
 @media (prefers-reduced-motion: reduce) {
     body::before { display: none; }
+    #particle-canvas { display: none; }
+    .loader-mark { animation: none; }
+    .typewriter-text { animation: none; border-right: none; }
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
@@ -80,6 +225,13 @@ body::before {
     .panel, header, footer {
         backdrop-filter: blur(6px);
         -webkit-backdrop-filter: blur(6px);
+    }
+    /* Fewer particles + no tilt on touch screens, handled in JS */
+    #scroll-top-btn {
+        bottom: 1.1rem;
+        right: 1.1rem;
+        width: 42px;
+        height: 42px;
     }
 }
 

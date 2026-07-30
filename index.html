@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Page load intro overlay -->
+    <div id="page-loader"><div class="loader-mark">HS</div></div>
+
+    <!-- Ambient floating particle background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Scroll progress bar -->
+    <div id="scroll-progress"></div>
+
     <header>
         <h1>My Portfolio</h1>
         <nav>
@@ -21,6 +30,7 @@
         <!-- Section 1: About -->
         <section id="about" class="panel content-section active">
             <h2>Hello, I am a Student! 👋</h2>
+            <p class="typewriter-line">I am a <span id="typewriter" class="typewriter-text"></span></p>
             <p>I am a student who has an interest in AI, coding, robotics, and more. Welcome to my personal site where I share my projects, tech experiments, and the books I've written!</p>
 
             <h3 style="margin-top: 2rem;">My Skills & Tech Stack</h3>
@@ -88,6 +98,9 @@
         </div>
         <p>&copy; 2026 Harshit. Built with code and creativity.</p>
     </footer>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" aria-label="Scroll to top">↑</button>
 
     <script src="script.js"></script>
 </body>
