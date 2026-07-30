@@ -231,13 +231,30 @@ navLinks.forEach(link => {
     });
 });
 
-// --- Mouse Spotlight Tracker ---
-// Only run on devices that actually support hover, to skip pointless work on touch devices
+// --- Mouse Spotlight Tracker (smooth eased follow, not instant snap) ---
 if (window.matchMedia('(hover: hover)').matches) {
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+    const ease = 0.12; // lower = smoother/laggier trail, higher = snappier
+
     document.addEventListener('mousemove', function(e) {
-        document.body.style.setProperty('--mouse-x', e.clientX + 'px');
-        document.body.style.setProperty('--mouse-y', e.clientY + 'px');
+        targetX = e.clientX;
+        targetY = e.clientY;
     });
+
+    function animateSpotlight() {
+        currentX += (targetX - currentX) * ease;
+        currentY += (targetY - currentY) * ease;
+
+        document.body.style.setProperty('--mouse-x', currentX + 'px');
+        document.body.style.setProperty('--mouse-y', currentY + 'px');
+
+        requestAnimationFrame(animateSpotlight);
+    }
+
+    animateSpotlight();
 }
 
 // --- Scroll Fade-In-Up (IntersectionObserver) ---
